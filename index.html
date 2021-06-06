@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Eid card</title>
+    <link href="./font/mono.ttf" />
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.20.0/js/canvas-to-blob.min.js"></script>
+
+    <style>
+        #First {
+            display: block;
+        }
+
+        #Second {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <div data-role="page" id="First">
+        <center>
+            <header>
+                <img class="logo" src="images/logo.jpg" alt="logo">
+            </header>
+        </center>
+        <center>
+            <div class="container">
+                <div class="en" id="englishCard">
+                    <!--<div>
+                    <canvas id="canvas" style="width:100%" width="1080" height="1535">Your browser does not support Canvas.</canvas>
+                </div>-->
+
+                    <div class="input">
+                        <h3>أكتب اسمك: </h3><br /><br />
+                        <input type="text" id="personName" name="name" placeholder="Your Name" autocomplete="off"><br>
+                    </div>
+
+                    <div>
+                        <a class="button">
+                            <button onclick="move()">إصدار بطاقة التهنئة</button>
+
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </center>
+    </div>
+    <div data-role="page" id="Second">
+        <div class="container">
+            <div class="en" id="englishCard">
+                <div>
+                    <canvas id="canvas" style="width:100%" width="1080" height="1535">Your browser does not support Canvas.</canvas>
+                </div>
+                <div class="buttons">
+                    <a style="float: right; border-radius: 50px; background: #fc8ab0;" class="button link pop-on-hover" id="download" download="Eid Mubarak.png">
+                        <button type="submit" onClick="download()">تحميل البطاقة</button>
+                    </a>
+                    <a style="float: left;" class="button">
+                        <button class="button" onclick="back()">الرجوع الي الصفحة السابقة</button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function move() {
+            document.getElementById('Second').style.display = 'block';
+            document.getElementById('First').style.display = 'none';
+        }
+        function back() {
+            document.getElementById('Second').style.display = 'none';
+            document.getElementById('First').style.display = 'block';
+        }
+
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var image = new Image(60, 45); // Using optional size for image
+        var ctx2 = canvas.getContext('2d');
+
+        //var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+
+
+
+        var drawImageActualSize = function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            ctx.drawImage(image, 0, -60);
+        }
+
+        var drawImageActualSize2 = function () {
+            ctx2.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            ctx2.drawImage(image, 0, -60);
+        }
+
+        image.onload = drawImageActualSize; // Draw when image has loaded
+        image.src = './images/Eid Mubarak.jpg';
+
+
+        //On Person name textbox
+        document.querySelector('input[name=name]').addEventListener('keyup', function () {
+
+            drawImageActualSize();
+            ctx.font = "bold 44px El Messiri";
+            ctx.fillStyle = "#024266";
+            ctx.textAlign = "center";
+            ctx.fillText(this.value, canvas.width / 2, canvas.height * .58);
+
+            //draw textbox 2 "position"
+            ctx2.font = "32px El Messiri";
+            ctx2.fillStyle = "#f8a01b";
+            ctx2.textAlign = "center";
+            ctx2.fillText(document.getElementById("position").value, canvas.width / 2, canvas.height * .80);
+
+        });
+
+
+
+        document.querySelector('input[name=position]').addEventListener('keyup', function () {
+
+            drawImageActualSize2();
+            ctx.font = "bold 44px El Messiri";
+            ctx.fillStyle = "#024266";
+            ctx.textAlign = "center";
+            ctx.fillText(document.getElementById("personName").value, canvas.width / 2, canvas.height * .75);
+
+            ctx2.font = "32px El Messiri";
+            ctx2.fillStyle = "#f8a01b";
+            ctx2.textAlign = "center";
+            ctx2.fillText(this.value, canvas.width / 2, canvas.height * .80);
+
+        });
+
+
+        function download() {
+            var download = document.getElementById("download");
+            var image = document.getElementById("canvas").toDataURL("image/png")
+                .replace("image/png", "image/octet-stream");
+            download.setAttribute("href", image);
+            //download.setAttribute("download","archive.png");
+        }
+
+    </script>
+    <script async="" src="https://static.addtoany.com/menu/page.js"></script>
+
+</body>
+</html>
