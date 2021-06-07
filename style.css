@@ -206,7 +206,7 @@ button {
     }
 
 .logo {
-    display: block;
+    display: inline;
     width: 35%;
     height: auto;
 }
